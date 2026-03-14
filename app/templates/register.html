@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}สมัครสมาชิก - UBU RentCar{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-5">
+                    <h3 class="text-center text-theme-blue fw-bold mb-4">สมัครสมาชิก</h3>
+                    
+                    <form action="/register" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">ชื่อผู้ใช้งาน (Username)</label>
+                            <input type="text" class="form-control" name="username" required placeholder="ตั้งชื่อผู้ใช้ของคุณ">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">อีเมล (Email)</label>
+                            <input type="email" class="form-control" name="email" required placeholder="example@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">รหัสผ่าน (Password)</label>
+                            <input type="password" class="form-control" name="password" required placeholder="ตั้งรหัสผ่าน">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">สมัครในฐานะ</label>
+                            <select class="form-select" name="role">
+                                <option value="member">ผู้ใช้งานทั่วไป (Member)</option>
+                                <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom-green w-100 py-2 fs-5">ยืนยันการสมัคร</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <span class="text-muted">มีบัญชีอยู่แล้ว?</span> <a href="/login" class="text-decoration-none fw-bold">เข้าสู่ระบบ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

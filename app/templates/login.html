@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}เข้าสู่ระบบ - UBU RentCar{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-5">
+                    <h3 class="text-center text-theme-blue fw-bold mb-4">เข้าสู่ระบบ</h3>
+                    
+                    <form action="/login" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">ชื่อผู้ใช้งาน (Username)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control" name="username" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">รหัสผ่าน (Password)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" name="password" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 fs-5 fw-bold">ล็อกอิน</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <span class="text-muted">ยังไม่มีบัญชี?</span> <a href="/register" class="text-decoration-none fw-bold text-success">สมัครสมาชิกใหม่</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
