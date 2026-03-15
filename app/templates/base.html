@@ -23,15 +23,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/">หน้าหลัก</a></li>
+                
+                <ul class="navbar-nav mx-auto my-3 my-lg-0 text-center">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="/search">เช่ารถพร้อมคนขับ</a></li>
                     <li class="nav-item"><a class="nav-link fw-semibold" href="#">เช่ารถขับเอง</a></li>
                     
                     {% if user_role == 'admin' %}
                     <li class="nav-item"><a class="nav-link fw-bold text-danger" href="#">จัดการระบบ (Admin)</a></li>
                     {% endif %}
                 </ul>
-                <div class="d-flex align-items-center">
+                
+                <div class="d-flex justify-content-center align-items-center pb-2 pb-lg-0">
                     {% if current_user %}
                         <span class="me-3 fw-bold text-theme-blue">
                             <i class="bi bi-person-circle"></i> {{ current_user }} 
@@ -43,6 +45,7 @@
                         <a href="/register" class="btn btn-custom-green">สมัครสมาชิก</a>
                     {% endif %}
                 </div>
+                
             </div>
         </div>
     </nav>

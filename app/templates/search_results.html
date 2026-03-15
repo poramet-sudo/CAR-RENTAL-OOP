@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}ผลการค้นหารถพร้อมคนขับ - UBU RentCar{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        
+        <div class="col-md-3 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0 text-dark">ตัวช่วยค้นหา</h6>
+                <a href="/search" class="text-decoration-none small text-muted">ล้างตัวเลือกทั้งหมด</a>
+            </div>
+            
+            <div class="card shadow-sm border-0 mb-3 rounded-4">
+                <div class="card-body p-4">
+                    <label class="form-label text-secondary small fw-bold mb-3">ช่วงราคา (ต่อวัน)</label>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group input-group-sm shadow-none">
+                            <span class="input-group-text bg-white text-secondary border-end-0 px-2">฿</span>
+                            <input type="number" id="minPrice" class="form-control border-start-0 ps-0 text-secondary" placeholder="1" value="1">
+                        </div>
+                        <span class="mx-2 text-secondary small">ถึง</span>
+                        <div class="input-group input-group-sm shadow-none">
+                            <span class="input-group-text bg-white text-secondary border-end-0 px-2">฿</span>
+                            <input type="number" id="maxPrice" class="form-control border-start-0 ps-0 text-secondary" placeholder="6000" value="6000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 mb-3 rounded-4">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <span class="text-secondary small fw-bold d-block">รายละเอียดรถเช่า</span>
+                        <span class="text-secondary small d-block">จำนวนผู้โดยสาร</span>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-4 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1 seat-filter-btn" data-category="1-3"><i class="bi bi-person"></i> 1-3</button></div>
+                        <div class="col-4 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1 seat-filter-btn" data-category="4-6"><i class="bi bi-people"></i> 4-6</button></div>
+                        <div class="col-4 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1 px-0 seat-filter-btn" data-category="7-11"><i class="bi bi-people-fill"></i> 7-11</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 mb-3 rounded-4">
+                <div class="card-body p-4">
+                    <label class="form-label text-secondary small fw-bold mb-3">ระบบเกียร์</label>
+                    <div class="row g-2">
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">อัตโนมัติ</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">ธรรมดา</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <label class="form-label text-secondary small fw-bold mb-3">ยี่ห้อรถ</label>
+                    <div class="row g-2">
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">Mazda</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">Toyota</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">Honda</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1">Hyundai</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1 px-0 text-truncate">Mitsubishi</button></div>
+                        <div class="col-6 d-grid"><button class="btn bg-white border border-secondary-subtle text-secondary btn-sm rounded-2 py-1 px-0 text-truncate">Mercedes Benz</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="fw-bold mb-0">ผลการค้นหา: รถพร้อมคนขับ</h5>
+                    <span class="text-muted small" id="vehicleCount">พบรถว่าง {{ vehicles|length }} คัน</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="small text-muted me-2 text-nowrap">เรียงผลตาม :</span>
+                    <select class="form-select form-select-sm border-0 shadow-sm rounded-3">
+                        <option>ราคารวม (น้อยไปมาก)</option>
+                        <option>ราคารวม (มากไปน้อย)</option>
+                    </select>
+                </div>
+            </div>
+            
+            {% for vehicle in vehicles %}
+            <div class="card shadow-sm border-0 rounded-4 mb-4 overflow-hidden vehicle-item" 
+                 data-price="{{ vehicle.price }}" 
+                 data-category="{{ vehicle.seat_category }}">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="https://placehold.co/400x300?text=Car+Image" class="img-fluid w-100 h-100 object-fit-cover" alt="รูปรถ">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body d-flex flex-column h-100 p-4">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="fw-bold text-dark mb-1">{{ vehicle.name }} <span class="fs-6 fw-normal text-muted">(พร้อมคนขับ)</span></h5>
+                                    <p class="text-muted small mb-2">
+                                        <i class="bi bi-person-fill"></i> {{ vehicle.seats }} ที่นั่ง (ไม่รวมคนขับ) | 
+                                        <i class="bi bi-gear-fill"></i> เกียร์{{ vehicle.transmission }} | 
+                                        {{ vehicle.type }}
+                                    </p>
+                                    <div class="text-success small mb-3">
+                                        <i class="bi bi-check-circle-fill"></i> จ่ายเงินสด หรือโอนผ่านแอป
+                                    </div>
+                                    <div>
+                                        {% for feature in vehicle.features %}
+                                        <span class="badge bg-light text-dark border me-1 fw-normal">{{ feature }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <p class="text-muted small mb-0">เริ่มต้น</p>
+                                    <h3 class="fw-bold text-dark mb-0">฿{{ "{:,.0f}".format(vehicle.price) }}</h3>
+                                    <p class="text-muted small">ต่อวัน (2 ชั่วโมง)</p>
+                                </div>
+                            </div>
+                            <div class="mt-auto text-end pt-3">
+                                <a href="#" class="btn btn-primary px-5 py-2 rounded-3 fw-bold w-100">รายละเอียดรถเช่า</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const minPriceInput = document.getElementById("minPrice");
+        const maxPriceInput = document.getElementById("maxPrice");
+        const vehicleItems = document.querySelectorAll(".vehicle-item");
+        const vehicleCount = document.getElementById("vehicleCount");
+        const seatBtns = document.querySelectorAll(".seat-filter-btn");
+        
+        let activeSeatCategory = null;
+
+        // ฟังก์ชันจัดการตอนกดปุ่มจำนวนผู้โดยสาร
+        seatBtns.forEach(btn => {
+            btn.addEventListener("click", function() {
+                // ถ้าปุ่มโดนกดอยู่แล้ว (ยกเลิกการเลือก)
+                if (this.classList.contains("bg-primary")) {
+                    this.classList.remove("bg-primary", "text-white", "border-primary");
+                    this.classList.add("bg-white", "text-secondary", "border-secondary-subtle");
+                    activeSeatCategory = null;
+                } else {
+                    // ล้างสีปุ่มอื่นออกก่อน
+                    seatBtns.forEach(b => {
+                        b.classList.remove("bg-primary", "text-white", "border-primary");
+                        b.classList.add("bg-white", "text-secondary", "border-secondary-subtle");
+                    });
+                    // เปลี่ยนสีปุ่มที่ถูกกด
+                    this.classList.remove("bg-white", "text-secondary", "border-secondary-subtle");
+                    this.classList.add("bg-primary", "text-white", "border-primary");
+                    activeSeatCategory = this.getAttribute("data-category");
+                }
+                filterVehicles();
+            });
+        });
+
+        // ฟังก์ชันประมวลผลการกรอง (ทำงานร่วมกันทั้งราคาและที่นั่ง)
+        function filterVehicles() {
+            const minPrice = parseInt(minPriceInput.value) || 0;
+            const maxPrice = parseInt(maxPriceInput.value) || 999999;
+            let visibleCount = 0;
+
+            vehicleItems.forEach(item => {
+                const price = parseInt(item.getAttribute("data-price"));
+                const category = item.getAttribute("data-category");
+                
+                // ตรวจสอบว่าผ่านเงื่อนไขทั้ง 2 อย่างหรือไม่
+                const matchPrice = price >= minPrice && price <= maxPrice;
+                const matchCategory = !activeSeatCategory || category === activeSeatCategory;
+
+                if (matchPrice && matchCategory) {
+                    item.style.display = ""; 
+                    visibleCount++;
+                } else {
+                    item.style.display = "none"; 
+                }
+            });
+
+            vehicleCount.innerHTML = `พบรถว่าง ${visibleCount} คัน`;
+        }
+
+        minPriceInput.addEventListener("input", filterVehicles);
+        maxPriceInput.addEventListener("input", filterVehicles);
+    });
+</script>
+{% endblock %}

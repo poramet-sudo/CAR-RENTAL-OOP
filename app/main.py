@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.responses import RedirectResponse
+# 1. นำเข้าตัวจัดการ Exception พื้นฐานของ FastAPI
+from fastapi.exception_handlers import http_exception_handler 
 
 from app.core.database import engine, Base
 from app.utils.flash import get_flashed_messages
@@ -28,10 +30,13 @@ app.include_router(vehicle_web.router) # เพิ่มของเพื่อ
 
 # ระบบจัดการ Exception (เมื่อยามเฝ้าประตูสั่งเด้งหน้าเว็บ)
 @app.exception_handler(StarletteHTTPException)
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+# 2. เปลี่ยนชื่อฟังก์ชันนิดหน่อยเพื่อไม่ให้ชื่อไปซ้ำกับตัวที่ import เข้ามา
+async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 303:
         return RedirectResponse(url=exc.headers.get("Location"))
-    return await request.app.default_exception_handler(request, exc)
+    
+    # 3. แก้ไขบรรทัดนี้: ให้เรียกใช้ http_exception_handler ที่ import มาแทน
+    return await http_exception_handler(request, exc)
 
 # หน้าแรกสุดของเว็บไซต์
 @app.get("/")
